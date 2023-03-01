@@ -1,0 +1,31 @@
+<!--futuramente virará php para tornar dinamico seus itens-->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="scripts/javascript/index.js"></script>
+    <script src="scripts/javascript/script.js"></script>
+</head>
+<body>
+    <div class="header">
+        <button type="button" onclick="sendToPhpPage('scripts/php/login.php')">Login</button>
+    </div>
+    <div id="mode">
+        <button type="button" onclick="changeMode('client')">C</button>
+        <button type="button" onclick="changeMode('market')">M</button>
+    </div>
+    <!--Simplesmente concatenar a class hidden aqui ou remove-la com js se necessario -->
+    <!--Muito cuidado com o atributo class aqui, pois o javascript tem um metodo para tirar e colocar o "hidden " na frente, LEMBRE-SE DISSO! É para tornar algumas partes invisiveis e etc -->
+    <div id="client" class="">
+        <p>Client</p>
+    </div>
+    <div id="market" class="hidden ">
+        <p>Market</p>
+    </div>
+</body>
+</html>

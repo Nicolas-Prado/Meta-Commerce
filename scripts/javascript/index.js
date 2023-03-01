@@ -1,0 +1,36 @@
+//Hidden class in client/market div logic
+var actualMode = "client";
+
+function changeMode(mode) {
+    if (actualMode != mode) {
+        removeHiddenOfClass(mode);
+        if (mode == "market") {
+            concatenateHiddenInClass("client");
+        }
+        else {
+            concatenateHiddenInClass("market");
+        }
+        actualMode = mode;
+    }
+}
+function removeHiddenOfClass(mode) {
+    var removingHiddenStringOfClass = document.getElementById(mode).getAttribute("class").replace("hidden ", "");
+    document.getElementById(mode).setAttribute("class", removingHiddenStringOfClass);
+}
+function concatenateHiddenInClass(mode) {
+    var currentClass = document.getElementById(mode).getAttribute("class");
+    currentClass = "hidden " + currentClass;
+    document.getElementById(mode).setAttribute("class", currentClass);
+}
+
+//PHP pages redirect logic
+function sendToPhpPage(url) {
+    if (url.includes("login.php")) {
+        sendToLoginPage(url);
+    }
+}
+
+function sendToLoginPage(url) {
+    loginUrlWithMode = url + "?mode=" + actualMode;
+    location.href = loginUrlWithMode;
+}
