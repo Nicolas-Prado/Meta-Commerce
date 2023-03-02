@@ -8,16 +8,16 @@
     <title>Home</title>
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/index.css">
-    <script src="scripts/javascript/index.js"></script>
-    <script src="scripts/javascript/script.js"></script>
 </head>
 <body>
     <div class="header">
-        <button type="button" onclick="sendToPhpPage('scripts/php/login.php')">Login</button>
+        <button type="button" onclick="sendToPhpPage('login.php')">Login</button>
+        <!--sendToPhpPage() is defined in main.js-->
     </div>
     <div id="mode">
         <button type="button" onclick="changeMode('client')">C</button>
         <button type="button" onclick="changeMode('market')">M</button>
+        <!--changeMode() is defined in index.js-->
     </div>
     <!--Simplesmente concatenar a class hidden aqui ou remove-la com js se necessario -->
     <!--Muito cuidado com o atributo class aqui, pois o javascript tem um metodo para tirar e colocar o "hidden " na frente, LEMBRE-SE DISSO! É para tornar algumas partes invisiveis e etc -->
@@ -27,5 +27,8 @@
     <div id="market" class="hidden ">
         <p>Market</p>
     </div>
+    <script src="scripts/javascript/index.js" type="text/javascript"></script>
+    <script src="scripts/javascript/main.js" type="text/javascript"></script></script>
+    <!--NAO COLOQUE script.s como nome... Nao sei muito bem o porque porem o Xampp ta tendo conflito-->
 </body>
 </html>

@@ -1,6 +1,6 @@
-//Hidden class in client/market div logic
 var actualMode = "client";
 
+//Hidden class in client/market div logic and change mode between then 
 function changeMode(mode) {
     if (actualMode != mode) {
         removeHiddenOfClass(mode);
@@ -24,13 +24,8 @@ function concatenateHiddenInClass(mode) {
 }
 
 //PHP pages redirect logic
-function sendToPhpPage(url) {
-    if (url.includes("login.php")) {
-        sendToLoginPage(url);
-    }
-}
-
 function sendToLoginPage(url) {
-    loginUrlWithMode = url + "?mode=" + actualMode;
+    loginUrlWithMode = initialPhpUrl + actualMode + url;
+    //initialPhpUrl is defined in main.js
     location.href = loginUrlWithMode;
 }
