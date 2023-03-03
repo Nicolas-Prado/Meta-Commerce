@@ -1,4 +1,4 @@
-var initialPhpUrl='scripts/php/pages/';
+var initialPhpUrl='scripts/php/view/';
 
 //PHP pages redirect logic
 function sendToPhpPage(url) {

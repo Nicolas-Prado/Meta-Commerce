@@ -1,5 +1,6 @@
 <?php
-    require_once '../classes/user.php';
+    require_once '../model/user.php';
+    require_once '../controller/usercontroller.php';
 
     //use User;
 
@@ -10,7 +11,7 @@
         $columns = array('email', 'password');
         $values = array($email, $password);
 
-        $selectedClient = User::selectUser($columns, $values);
+        $selectedClient = User::findUsersByParameters($columns, $values);
     }
 ?>
 
