@@ -1,4 +1,5 @@
 <?php
+require_once "repository.php";
 class User extends Repository{
     private $pk_id_user;
     private $nm_user;
@@ -15,22 +16,40 @@ class User extends Repository{
     private $dt_creation;
     private $dt_update;
 
-    static function findUsersByParameters($columns, $values){
-        $rawSelect="SELECT * FROM user WHERE";
+    //Getters and Setters
+    public function getNmUser(){
+        return $this->nm_user;
+    } 
 
-        $count=0;
-        $select=" " . $columns[$count] . " = ?";
-        foreach($columns as $column){
-            $count++;
-            $select= $select . " and " . $column . " = ?";
-        }//paramos aqui! Arrumar
+    public function getPassword(){
+        return $this->cd_password;
+    } 
 
-        parent::$db;
 
-        $usersArray=array();
-        while($row = $statement->fetch()){
-            $usersArray[]=$row;
-        }
+    //DAO Methods
+    static function executePreparetedQuery($select, $values){
+        $db = parent::getDB();
+        
+        $statement = $db->prepare($select);
+        $statement->execute($values);
+
+        return $statement;
+    }
+    static function getDynamicSelect($columns, $logicOperators){
+        return parent::getDynamicGeneralSelect('user', $columns, $logicOperators);
+    }
+
+    static function fetchInUserObject($statement){
+        return parent::fetchInObjectTemplate($statement, 'user');
+    }
+
+    static function findUsersByParameters($columns, $logicOperators, $values){
+        $select = self::getDynamicSelect($columns, $logicOperators);
+
+        $statement = self::executePreparetedQuery($select, $values);
+
+        $usersArray = self::fetchInUserObject($statement);
+
         return $usersArray;
     }
 
@@ -38,4 +57,11 @@ class User extends Repository{
         //parent::$db;
     }
 }
+
+/*$count=0;
+        $select=" " . $columns[$count] . " = ?";
+        foreach($columns as $column){
+            $count++;
+            $select= $select . " and " . $column . " = ?";
+        }//paramos aqui! Arrumar*/
 ?>

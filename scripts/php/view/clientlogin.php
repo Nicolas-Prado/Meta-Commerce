@@ -1,18 +1,28 @@
 <?php
-    require_once '../model/user.php';
-    require_once '../controller/usercontroller.php';
+    error_reporting(E_ERROR | E_WARNING | E_PARSE); 
 
-    //use User;
+    require_once '../model/usermodel.php';
+    require_once '../controller/usercontroller.php';
 
     if(isset($_POST['submit'])){
         $email      = $_POST['email'];
         $password   = $_POST['password'];
         
-        $columns = array('email', 'password');
+        $columns = array('ds_email', 'cd_password');
+        $logicOperators = array('and');
         $values = array($email, $password);
 
-        $selectedClient = User::findUsersByParameters($columns, $values);
-    }
+        $selectedClient = UserController::findUsersByParameters($columns, $logicOperators, $values)[0];
+
+        if(empty($selectedClient)){
+            echo "<p id='error'>Cannot find an user with that email/password</p>";
+        }
+        else{
+            //Serializar e botar em sessão o objeto
+            header('Location: clientlobby.php');
+            die();
+        }
+    } 
 ?>
 
 <!DOCTYPE html>

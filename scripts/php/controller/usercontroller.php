@@ -1,6 +1,10 @@
 <?php
     require_once "../model/usermodel.php";
-    function findUsersByParameters($columns, $values){
-        return User::findUsersByParameters($columns, $values);
+    class UserController{
+
+        static function findUsersByParameters($columns, $logicOperators, $values){
+            return User::findUsersByParameters($columns, $logicOperators, $values);
+        }
+        
     }
 ?>

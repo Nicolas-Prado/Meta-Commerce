@@ -17,3 +17,6 @@ CREATE TABLE user(
 
     PRIMARY KEY(pk_id_user)
 );
+
+INSERT INTO user 
+VALUES(0, 'sus','suspass','suspass','2012-01-01','dsa','dasd','dsa','dasd','dsa','dasd',32,'2012-01-01','2012-01-01');
