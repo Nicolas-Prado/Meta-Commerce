@@ -18,7 +18,8 @@
             echo "<p id='error'>Cannot find an user with that email/password</p>";
         }
         else{
-            //Serializar e botar em sessão o objeto
+            session_start();
+            $_SESSION['password'] = $selectedClient->getNmUser();
             header('Location: clientlobby.php');
             die();
         }
@@ -46,16 +47,16 @@
                 <input type="text" name="email" id="email">
                 <br>
                 <label for="password">Password</label>
-                <input type="text" name="password" id="password">
+                <input type="password" name="password" id="password">
                 <input type="submit" name="submit" value="Login">
             </form>
         </div>
         <div class="register-content">
-            <p>Don't have an user account? Make right there!</p>
+            <p>Don't have an user account? Make right <a href="userregister.php">there!</a></p>
             <!--Coloca um botão ou hyper link no there-->
         </div>
     </div>
-    <script src="../javascript/script.js"></script>
+    <script src="../javascript/main.js"></script>
 </body>
 
 </html>

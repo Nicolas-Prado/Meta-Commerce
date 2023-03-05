@@ -15,6 +15,13 @@ class User extends Repository{
     private $nr_address;
     private $dt_creation;
     private $dt_update;
+    
+    //Contructors
+    function __construct(array $array) {
+        foreach($array as $key => $value){
+            $this->{$key} = $value;
+        }
+    }
 
     //Getters and Setters
     public function getNmUser(){
@@ -27,7 +34,7 @@ class User extends Repository{
 
 
     //DAO Methods
-    static function executePreparetedQuery($select, $values){
+    private static function executePreparetedQuery($select, $values){
         $db = parent::getDB();
         
         $statement = $db->prepare($select);
@@ -35,11 +42,11 @@ class User extends Repository{
 
         return $statement;
     }
-    static function getDynamicSelect($columns, $logicOperators){
+    private static function getDynamicSelect($columns, $logicOperators){
         return parent::getDynamicGeneralSelect('user', $columns, $logicOperators);
     }
 
-    static function fetchInUserObject($statement){
+    private static function fetchInUserObject($statement){
         return parent::fetchInObjectTemplate($statement, 'user');
     }
 
@@ -52,10 +59,10 @@ class User extends Repository{
 
         return $usersArray;
     }
-
+    /*
     static function findEmployerByParameters($columns, $values){
         //parent::$db;
-    }
+    }*/
 }
 
 /*$count=0;
