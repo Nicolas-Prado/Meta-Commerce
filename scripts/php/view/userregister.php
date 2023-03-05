@@ -1,5 +1,6 @@
 <?php
-
+require_once '../model/usermodel.php';
+require_once '../controller/usercontroller.php';
 function findUserByEmail($email){
     $columns = array('ds_email');
     $logicalOperatores = array();
@@ -10,8 +11,7 @@ function findUserByEmail($email){
 function isValidEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) && empty(findUserByEmail($email));
 }
-function manageImgFromForm($email)
-{
+function manageImgFromForm($email){
     // Here we have an weakness for DoS attack, because i dont limit the size of archive sended from form
 
     // Get reference to uploaded image
@@ -45,25 +45,43 @@ if (isset($_POST['submit'])) {
         $imgName = manageImgFromForm($_POST['ds_email']);
 
         $_POST['pk_id_user'] = 0;
-        //$_POST['nm_user'] = $;
-        //$_POST['cd_password'] = $;
-        //$_POST['ds_email'] = $;
-        //$_POST['dt_born'] = $;
+
         $_POST['nm_img'] = $imgName;
-        //$_POST['cd_cep'] = $;
-        //$_POST['ds_country'] = $;
-        //$_POST['ds_state'] = $;
-        //$_POST['ds_city'] = $;
-        //$_POST['ds_address'] = $;
-        //$_POST['nr_address'] = $;
+
         $_POST['dt_creation'] = date('Y-m-d');
         $_POST['dt_update'] = date('Y-m-d');
 
+        unset($_POST['cd_password_repeat']);
         unset($_POST['submit']);
 
         $user = new User($_POST);
+        
+        UserController::insertIntoUsersWithUserObject($user);
 
-        //So mandar o user pra inserir e fim
+        header('Location: clientlogin.php');
+        die();
+        /*
+        echo serialize($user);
+
+        echo '<br><br>';
+
+        echo json_decode(json_encode($user), true);
+
+        echo '<br><br>';
+
+        $array = array(
+            'first' => 1,
+            'second' => 2);
+
+        echo implode(",",$array);
+
+        echo '<br><br>';
+
+        echo implode("','", (array) $user);
+        */
+    }
+    else{
+        echo "<p id=\"error\">Invalid email or already in use!</p>";
     }
 
 }

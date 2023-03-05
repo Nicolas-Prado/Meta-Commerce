@@ -17,9 +17,11 @@ class User extends Repository{
     private $dt_update;
     
     //Contructors
-    function __construct(array $array) {
-        foreach($array as $key => $value){
+    function __construct(array $array = null) {
+        if($array != null){
+            foreach($array as $key => $value){
             $this->{$key} = $value;
+            }
         }
     }
 
@@ -34,16 +36,29 @@ class User extends Repository{
 
 
     //DAO Methods
-    private static function executePreparetedQuery($select, $values){
+    private static function executePreparetedQuery($query, $values){
         $db = parent::getDB();
         
-        $statement = $db->prepare($select);
+        $statement = $db->prepare($query);
         $statement->execute($values);
 
         return $statement;
     }
-    private static function getDynamicSelect($columns, $logicOperators){
-        return parent::getDynamicGeneralSelect('user', $columns, $logicOperators);
+
+    private static function executeQuery($query){
+        $db = parent::getDB();
+        
+        $result = $db->query($query);
+
+        return $result;
+    }
+
+    private static function getDynamicPreparetedSelect($columns, $logicOperators){
+        return parent::getDynamicGeneralPreparetedSelect('user', $columns, $logicOperators);
+    }
+
+    private static function getDynamicInsert($values){
+        return parent::getDynamicGeneralInsert('user', $values);
     }
 
     private static function fetchInUserObject($statement){
@@ -51,7 +66,7 @@ class User extends Repository{
     }
 
     static function findUsersByParameters($columns, $logicOperators, $values){
-        $select = self::getDynamicSelect($columns, $logicOperators);
+        $select = self::getDynamicPreparetedSelect($columns, $logicOperators);
 
         $statement = self::executePreparetedQuery($select, $values);
 
@@ -59,6 +74,15 @@ class User extends Repository{
 
         return $usersArray;
     }
+
+    static function insertIntoUsersWithUserObject(User $user){
+        $values = parent::castObjectIntoArrayOfValuesFormattedForQuery($user);
+        
+        $insert = self::getDynamicInsert($values);
+
+        return self::executeQuery($insert);
+    }
+
     /*
     static function findEmployerByParameters($columns, $values){
         //parent::$db;
@@ -71,4 +95,3 @@ class User extends Repository{
             $count++;
             $select= $select . " and " . $column . " = ?";
         }//paramos aqui! Arrumar*/
-?>
