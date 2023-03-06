@@ -1,8 +1,8 @@
 <?php
     error_reporting(E_ERROR | E_WARNING | E_PARSE); 
 
-    require_once '../model/usermodel.php';
-    require_once '../controller/usercontroller.php';
+    require_once '../../model/usermodel.php';
+    require_once '../../controller/usercontroller.php';
 
     if(isset($_POST['submit'])){
         $email      = $_POST['email'];
@@ -33,9 +33,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client login</title>
-    <link rel="stylesheet" href="../../styles/style.css">
-    <link rel="stylesheet" href="../../styles/clientlogin.css">
+    <title>Client Login</title>
+    <link rel="stylesheet" href="../../../../styles/style.css">
+    <link rel="stylesheet" href="../../../../styles/clientlogin.css">
 
 </head>
 
@@ -56,7 +56,7 @@
             <!--Coloca um botão ou hyper link no there-->
         </div>
     </div>
-    <script src="../javascript/main.js"></script>
+    <script src="../../../javascript/main.js"></script>
 </body>
 
 </html>

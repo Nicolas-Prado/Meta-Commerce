@@ -1,10 +1,38 @@
 <?php
+//CONSTANTS
+define("HOST", "localhost");
+define("PORT", 3307);
+define("DBNAME", "meta_commerce");
+define("USER", "root");
+define("PASSWORD", "pradopgworcnaz0");
     class Repository{
         static function getDB(){
-            return new PDO("mysql:host=localhost;port=3307;dbname=meta_commerce;", "root", "pradopgworcnaz0");
+            return new PDO("mysql:" 
+            . "host=" . HOST . ";"
+            . "port=" . PORT . ";" 
+            . "dbname=" . DBNAME . ";"
+
+            , USER, PASSWORD);
         }
 
-        static function getDynamicGeneralPreparetedSelect($table, $columns, $logicOperators){
+        static function executePreparetedQuery($query, $values){
+            $db = self::getDB();
+            
+            $statement = $db->prepare($query);
+            $statement->execute($values);
+    
+            return $statement;
+        }
+    
+        static function executeQuery($query){
+            $db = self::getDB();
+            
+            $result = $db->query($query);
+    
+            return $result;
+        }
+
+        static function getGeneralDynamicPreparetedSelect($table, $columns, $logicOperators){
             $rawSelect="select * from " . $table . " where ";
 
             $whereString = $columns[0] . " = ?";

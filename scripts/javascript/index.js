@@ -24,8 +24,8 @@ function concatenateHiddenInClass(mode) {
 }
 
 //PHP pages redirect logic
-function sendToLoginPage(url) {
-    loginUrlWithMode = initialPhpUrl + actualMode + url;
+function sendToDynamicLoginPage(url) {
+    loginUrlWithMode = initialPhpUrl + actualMode + '/' + actualMode + url;
     //initialPhpUrl is defined in main.js
     location.href = loginUrlWithMode;
 }

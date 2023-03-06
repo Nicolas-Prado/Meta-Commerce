@@ -36,28 +36,11 @@ class User extends Repository{
 
 
     //DAO Methods
-    private static function executePreparetedQuery($query, $values){
-        $db = parent::getDB();
-        
-        $statement = $db->prepare($query);
-        $statement->execute($values);
-
-        return $statement;
+    private static function getUserDynamicPreparetedSelect($columns, $logicOperators){
+        return parent::getGeneralDynamicPreparetedSelect('user', $columns, $logicOperators);
     }
 
-    private static function executeQuery($query){
-        $db = parent::getDB();
-        
-        $result = $db->query($query);
-
-        return $result;
-    }
-
-    private static function getDynamicPreparetedSelect($columns, $logicOperators){
-        return parent::getDynamicGeneralPreparetedSelect('user', $columns, $logicOperators);
-    }
-
-    private static function getDynamicInsert($values){
+    private static function getUserDynamicInsert($values){
         return parent::getDynamicGeneralInsert('user', $values);
     }
 
@@ -66,9 +49,9 @@ class User extends Repository{
     }
 
     static function findUsersByParameters($columns, $logicOperators, $values){
-        $select = self::getDynamicPreparetedSelect($columns, $logicOperators);
+        $select = self::getUserDynamicPreparetedSelect($columns, $logicOperators);
 
-        $statement = self::executePreparetedQuery($select, $values);
+        $statement = parent::executePreparetedQuery($select, $values);
 
         $usersArray = self::fetchInUserObject($statement);
 
@@ -78,9 +61,9 @@ class User extends Repository{
     static function insertIntoUsersWithUserObject(User $user){
         $values = parent::castObjectIntoArrayOfValuesFormattedForQuery($user);
         
-        $insert = self::getDynamicInsert($values);
+        $insert = self::getUserDynamicInsert($values);
 
-        return self::executeQuery($insert);
+        return parent::executeQuery($insert);
     }
 
     /*
@@ -88,10 +71,12 @@ class User extends Repository{
         //parent::$db;
     }*/
 }
-
 /*$count=0;
         $select=" " . $columns[$count] . " = ?";
         foreach($columns as $column){
             $count++;
             $select= $select . " and " . $column . " = ?";
         }//paramos aqui! Arrumar*/
+?>
+
+
