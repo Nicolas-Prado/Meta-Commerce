@@ -1,6 +1,7 @@
 <?php
 require_once "repository.php";
-class Market extends Repository{
+class Market extends Repository
+{
     private $pk_id_market;
     private $nm_market;
     private $ds_email;
@@ -11,54 +12,73 @@ class Market extends Repository{
     private $dt_creation;
     private $dt_update;
 
-//Contructors
-function __construct(array $array = null) {
-    if($array != null){
-        foreach($array as $key => $value){
-        $this->{$key} = $value;
+    //Contructors
+    function __construct(array $array = null){
+        if ($array != null) {
+            foreach ($array as $key => $value) {
+                $this->{$key} = $value;
+            }
         }
+    }
+
+    //Getters and Setters
+    public function getNmUser(){
+        return $this->nm_market;
+    }
+    public function getEmail(){
+        return $this->ds_email;
+    }
+
+    /*DAO Methods*/
+
+    //Select
+    private static function getMarketDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values){
+        if ($tables == null) {
+            $tables = array('market');
+        }
+        return parent::getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+    }
+    static function findMarketsByParameters($showColumns, $tables, $relationColumns, $logicOperators, $values){
+        $select = self::getMarketDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+
+        $statement = parent::executeQuery($select);
+
+        $marketsArray = self::fetchInMarketObjectArray($statement);
+
+        return $marketsArray;
+    }
+    static function getEmployerMarkets($id_user){
+        $showColumns        =   array('m.nm_market');
+        $tables             =   array('market m', 'employer_relation er');
+        $relationColumns    =   array('m.pk_id_market', 'er.fk_id_user');
+        $logicOperators     =   array('and');
+        $values             =   array('er.fk_id_market', $id_user);
+
+        $select = self::getMarketDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+
+        $statement = parent::executeQuery($select);
+
+        $marketsArray = parent::fetchInStringArray($statement, 'nm_market');
+
+        return $marketsArray;
+    }
+
+    //Insert
+    private static function getMarketDynamicInsert($values){
+        return parent::getDynamicGeneralInsert('market', $values);
+    }
+    static function insertIntoMarketsWithMarketObject(Market $market){
+        $values = parent::castObjectIntoArrayOfValuesFormattedForQuery($market);
+
+        $insert = self::getMarketDynamicInsert($values);
+
+        return parent::executeQuery($insert);
+    }
+
+    //Misc
+    private static function fetchInMarketObjectArray($statement){
+        return parent::fetchInObjectTemplateArray($statement, 'market');
     }
 }
 
-//Getters and Setters
-public function getNmUser(){
-    return $this->nm_market;
-} 
-
-public function getEmail(){
-    return $this->ds_email;
-}
-
-//DAO Methods
-private static function getMarketDynamicPreparetedSelect($columns, $logicOperators){
-    return parent::getGeneralDynamicPreparetedSelect('market', $columns, $logicOperators);
-}
-
-private static function getMarketDynamicInsert($values){
-    return parent::getDynamicGeneralInsert('market', $values);
-}
-
-private static function fetchInMarketObject($statement){
-    return parent::fetchInObjectTemplate($statement, 'market');
-}
-
-static function findMarketsByParameters($columns, $logicOperators, $values){
-    $select = self::getMarketDynamicPreparetedSelect($columns, $logicOperators);
-
-    $statement = parent::executePreparetedQuery($select, $values);
-
-    $usersArray = self::fetchInMarketObject($statement);
-
-    return $usersArray;
-}
-
-static function insertIntoMarketsWithMarketObject(Market $market){
-    $values = parent::castObjectIntoArrayOfValuesFormattedForQuery($market);
-    
-    $insert = self::getMarketDynamicInsert($values);
-
-    return parent::executeQuery($insert);
-}
-
-}
 ?>

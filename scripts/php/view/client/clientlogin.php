@@ -7,12 +7,12 @@
     if(isset($_POST['submit'])){
         $email      = $_POST['email'];
         $password   = $_POST['password'];
-        
-        $columns = array('ds_email', 'cd_password');
+
+        $relationColumns = array('ds_email', 'cd_password');
         $logicOperators = array('and');
         $values = array($email, $password);
 
-        $selectedClient = UserController::findUsersByParameters($columns, $logicOperators, $values)[0];
+        $selectedClient = UserController::findUsersByParameters(null, null, $relationColumns, $logicOperators, $values)[0];
 
         if(empty($selectedClient)){
             echo "<p id='error'>Cannot find an user with that email/password</p>";

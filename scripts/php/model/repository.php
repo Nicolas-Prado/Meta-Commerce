@@ -6,7 +6,8 @@ define("DBNAME", "meta_commerce");
 define("USER", "root");
 define("PASSWORD", "pradopgworcnaz0");
     class Repository{
-        static function getDB(){
+        //DB contact
+        private static function getDB(){
             return new PDO("mysql:" 
             . "host=" . HOST . ";"
             . "port=" . PORT . ";" 
@@ -14,7 +15,6 @@ define("PASSWORD", "pradopgworcnaz0");
 
             , USER, PASSWORD);
         }
-
         static function executePreparetedQuery($query, $values){
             $db = self::getDB();
             
@@ -23,7 +23,6 @@ define("PASSWORD", "pradopgworcnaz0");
     
             return $statement;
         }
-    
         static function executeQuery($query){
             $db = self::getDB();
             
@@ -32,30 +31,70 @@ define("PASSWORD", "pradopgworcnaz0");
             return $result;
         }
 
-        static function getGeneralDynamicPreparetedSelect($table, $columns, $logicOperators){
-            $rawSelect="select * from " . $table . " where ";
+        //Dynamic Select Query
+        private static function getDynamicShowColumns(array $showColumns){
+            $showColumnsString = $showColumns[0];
+            for($index=1; $index<count($showColumns); $index++){
+                $showColumnsString.=', ';
+                $showColumnsString.=$showColumns[$index];
+            }
+            return $showColumnsString;
+        }
+        private static function getDynamicFromClause(array $tables){
+            $fromClause = 'FROM ' . $tables[0];
+            for($index=1; $index<count($tables); $index++){
+                $fromClause.=', ';
+                $fromClause.=$tables[$index];
+            }
+            return $fromClause;
+        }
+        private static function getDynamicWhereClause(array $relationColumns, array $logicOperators, array $values){
+            $whereClause = 'WHERE ' . $relationColumns[0] . " = " . $values[0];
+            for($index=1; $index<count($relationColumns); $index++){
+                $whereClause .= " " . $logicOperators[$index-1] . " " . $relationColumns[$index] . 
+                " = " . $values[$index];
+            }
+            return $whereClause;
+        }
+        static function getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values){
+            $selectClause = 'SELECT';
 
-            $whereString = $columns[0] . " = ?";
-            for($index=1; $index<count($columns); $index++){
-                $whereString = $whereString . " " . $logicOperators[$index-1] . " " . $columns[$index] . " = ?";
+            $showColumnsString=' *';
+            if($showColumns!=null){
+                $showColumnsString = ' ' . self::getDynamicShowColumns($showColumns);
             }
 
-            return $rawSelect . $whereString;
+            $fromClause = ' ' . self::getDynamicFromClause($tables);
+
+            $whereClause = '';
+            if($relationColumns!=null){
+                $whereClause = ' ' . self::getDynamicWhereClause($relationColumns, $logicOperators, $values);
+            }
+
+            return $selectClause . $showColumnsString . $fromClause . $whereClause;
         }
 
+        //Dynamic Insert Query
         static function getDynamicGeneralInsert($table, $values){
             $insert = 'INSERT INTO ' . $table . " VALUES('" . $values . "')";
             return $insert;
         }
 
-        static function fetchInObjectTemplate($statement, $class){
+        //Misc
+        static function fetchInObjectTemplateArray($statement, $class){
             $objectArray=array();
             while($row = $statement->fetchObject($class)){
                 $objectArray[]=$row;
             }
             return $objectArray;
         }
-        
+        static function fetchInStringArray($statement, $column){
+            $stringArray=array();
+            while($row = $statement->fetch()){
+                $stringArray[]=$row[$column];
+            }
+            return $stringArray;
+        }
         static function castObjectIntoArrayOfValuesFormattedForQuery(Object $obj){
             $arrayObj = (array) $obj;
             $values = implode("','", $arrayObj);

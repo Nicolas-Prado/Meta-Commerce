@@ -36,6 +36,9 @@ CREATE TABLE market(
     PRIMARY KEY(pk_id_market)
 );
 
+INSERT INTO market 
+VALUES(0, 'Pgtronic','nicolasprado0028@gmail.com','imgnicolasprado0028@gmail.com.png','2019-05-14','andrepika','Active','2012-01-01','2012-01-01');
+
 CREATE TABLE employer_relation(
     pk_employer_relation    INT            NOT NULL AUTO_INCREMENT,
     fk_id_user              INT, 
@@ -51,4 +54,5 @@ CREATE TABLE employer_relation(
 );
 
 INSERT INTO employer_relation 
-VALUES(0, 1, 1, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');
+VALUES(0, 1, 4, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');
+--VALUES(0, 1, 1, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');

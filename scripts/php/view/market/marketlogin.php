@@ -18,7 +18,6 @@
                 onfocus="getEmployerMarkets()">
                 <datalist id="markets">
                 </datalist>
-                <!--<span id="blank-email-advice">Fill Email input first to see your markets</span>-->
                 <br>
 
                 <label for="email">Email: </label>

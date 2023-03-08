@@ -8,11 +8,11 @@ require_once '../../model/marketmodel.php';
 require_once '../../controller/marketcontroller.php';
 
 function findMarketByEmail($email){
-    $columns = array('ds_email');
+    $relationColumns = array('ds_email');
     $logicalOperatores = array();
     $values = array($email);
-
-    return MarketController::findMarketsByParameters($columns, $logicalOperatores, $values);
+    
+    return MarketController::findMarketsByParameters(null, null, $relationColumns, $logicalOperatores, $values);
 }
 function isValidEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) && empty(findMarketByEmail($email));

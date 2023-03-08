@@ -7,11 +7,12 @@ define("USERS_IMG_LOCAL", "/../../../../resources/usersimg/");
 require_once '../../model/usermodel.php';
 require_once '../../controller/usercontroller.php';
 function findUserByEmail($email){
-    $columns = array('ds_email');
+    
+    $relationColumns = array('ds_email');
     $logicalOperatores = array();
     $values = array($email);
 
-    return UserController::findUsersByParameters($columns, $logicalOperatores, $values);
+    return UserController::findUsersByParameters(null, null, $relationColumns, $logicalOperatores, $values);
 }
 function isValidEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) && empty(findUserByEmail($email));
@@ -65,25 +66,6 @@ if (isset($_POST['submit'])) {
 
         header('Location: clientlogin.php');
         die();
-        /*
-        echo serialize($user);
-
-        echo '<br><br>';
-
-        echo json_decode(json_encode($user), true);
-
-        echo '<br><br>';
-
-        $array = array(
-            'first' => 1,
-            'second' => 2);
-
-        echo implode(",",$array);
-
-        echo '<br><br>';
-
-        echo implode("','", (array) $user);
-        */
     }
     else{
         echo "<p id=\"error\">Invalid email or already in use!</p>";

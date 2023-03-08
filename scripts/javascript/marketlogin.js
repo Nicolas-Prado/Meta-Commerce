@@ -32,9 +32,9 @@ function getEmployerMarkets(){
         const jsonDoc = JSON.parse(this.responseText);
         console.log(jsonDoc[0]);
     }
-    xhttp.open("POST", "../../api/apitest.php");
+    xhttp.open("POST", "../../api/getMarketsByEmployerEmail.php");
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("email="+document.getElementById("email"));
+    xhttp.send("email="+document.getElementById("email").value);
 }
 /*
 function manageMarketDisable(){

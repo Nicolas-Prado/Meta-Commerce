@@ -29,39 +29,37 @@ class User extends Repository{
     public function getPkIdUser(){
         return $this->pk_id_user;
     }
-
     public function getNmUser(){
         return $this->nm_user;
     } 
-
     public function getPassword(){
         return $this->cd_password;
     } 
 
 
-    //DAO Methods
-    private static function getUserDynamicPreparetedSelect($columns, $logicOperators){
-        return parent::getGeneralDynamicPreparetedSelect('user', $columns, $logicOperators);
+    /*DAO Methods*/
+
+    //Select
+    private static function getUserDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values){
+        if($tables==null){
+            $tables = array('user');
+        }
+        return parent::getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
     }
-
-    private static function getUserDynamicInsert($values){
-        return parent::getDynamicGeneralInsert('user', $values);
-    }
-
-    private static function fetchInUserObject($statement){
-        return parent::fetchInObjectTemplate($statement, 'user');
-    }
-
-    static function findUsersByParameters($columns, $logicOperators, $values){
-        $select = self::getUserDynamicPreparetedSelect($columns, $logicOperators);
-
-        $statement = parent::executePreparetedQuery($select, $values);
-
-        $usersArray = self::fetchInUserObject($statement);
-
+    static function findUsersByParameters($showColumns, $tables, $relationColumns, $logicOperators, $values){
+        $select = self::getUserDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+    
+        $statement = parent::executeQuery($select);
+    
+        $usersArray = self::fetchInUserObjectArray($statement);
+    
         return $usersArray;
     }
 
+    //Insert
+    private static function getUserDynamicInsert($values){
+        return parent::getDynamicGeneralInsert('user', $values);
+    }
     static function insertIntoUsersWithUserObject(User $user){
         $values = parent::castObjectIntoArrayOfValuesFormattedForQuery($user);
         
@@ -70,17 +68,12 @@ class User extends Repository{
         return parent::executeQuery($insert);
     }
 
-    /*
-    static function findEmployerByParameters($columns, $values){
-        //parent::$db;
-    }*/
+    //Misc
+    private static function fetchInUserObjectArray($statement){
+        return parent::fetchInObjectTemplateArray($statement, 'user');
+    }
 }
-/*$count=0;
-        $select=" " . $columns[$count] . " = ?";
-        foreach($columns as $column){
-            $count++;
-            $select= $select . " and " . $column . " = ?";
-        }//paramos aqui! Arrumar*/
+
 ?>
 
 
