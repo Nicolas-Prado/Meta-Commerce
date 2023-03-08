@@ -35,3 +35,20 @@ CREATE TABLE market(
 
     PRIMARY KEY(pk_id_market)
 );
+
+CREATE TABLE employer_relation(
+    pk_employer_relation    INT            NOT NULL AUTO_INCREMENT,
+    fk_id_user              INT, 
+    fk_id_market            INT, 
+
+    ds_role                 VARCHAR(255),
+    dt_hiring               DATE,
+    
+    dt_creation             DATE,
+    dt_update               DATE,
+
+    PRIMARY KEY(pk_employer_relation)
+);
+
+INSERT INTO employer_relation 
+VALUES(0, 1, 1, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');

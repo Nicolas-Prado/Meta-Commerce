@@ -26,6 +26,10 @@ class User extends Repository{
     }
 
     //Getters and Setters
+    public function getPkIdUser(){
+        return $this->pk_id_user;
+    }
+
     public function getNmUser(){
         return $this->nm_user;
     } 
