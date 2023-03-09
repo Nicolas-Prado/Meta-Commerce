@@ -48,6 +48,13 @@ define("PASSWORD", "pradopgworcnaz0");
             }
             return $fromClause;
         }
+        private static function addSingleQuotes(array & $values, array $haveSingleQuoteBooleanArray){
+            for($index=0; $index<count($values); $index++){
+                if($haveSingleQuoteBooleanArray[$index]){
+                    $values[$index] = "'" . $values[$index] . "'";
+                }
+            }
+        }
         private static function getDynamicWhereClause(array $relationColumns, array $logicOperators, array $values){
             $whereClause = 'WHERE ' . $relationColumns[0] . " = " . $values[0];
             for($index=1; $index<count($relationColumns); $index++){
@@ -56,7 +63,7 @@ define("PASSWORD", "pradopgworcnaz0");
             }
             return $whereClause;
         }
-        static function getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values){
+        static function getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
             $selectClause = 'SELECT';
 
             $showColumnsString=' *';
@@ -65,6 +72,8 @@ define("PASSWORD", "pradopgworcnaz0");
             }
 
             $fromClause = ' ' . self::getDynamicFromClause($tables);
+
+            self::addSingleQuotes($values, $haveSingleQuoteBooleanArray);
 
             $whereClause = '';
             if($relationColumns!=null){

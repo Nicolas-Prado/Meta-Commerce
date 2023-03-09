@@ -9,10 +9,11 @@
         $password   = $_POST['password'];
 
         $relationColumns = array('ds_email', 'cd_password');
+        $haveSingleQuoteBooleanArray = array(TRUE, TRUE);
         $logicOperators = array('and');
         $values = array($email, $password);
 
-        $selectedClient = UserController::findUsersByParameters(null, null, $relationColumns, $logicOperators, $values)[0];
+        $selectedClient = UserController::findUsersByParameters(null, null, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values)[0];
 
         if(empty($selectedClient)){
             echo "<p id='error'>Cannot find an user with that email/password</p>";

@@ -40,14 +40,14 @@ class User extends Repository{
     /*DAO Methods*/
 
     //Select
-    private static function getUserDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values){
+    private static function getUserDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
         if($tables==null){
             $tables = array('user');
         }
-        return parent::getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+        return parent::getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
     }
-    static function findUsersByParameters($showColumns, $tables, $relationColumns, $logicOperators, $values){
-        $select = self::getUserDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+    static function findUsersByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
+        $select = self::getUserDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
     
         $statement = parent::executeQuery($select);
     

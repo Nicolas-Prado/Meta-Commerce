@@ -1,6 +1,6 @@
 <?php
 require_once "repository.php";
-class Market extends Repository
+class Market extends Repository implements \JsonSerializable
 {
     private $pk_id_market;
     private $nm_market;
@@ -21,6 +21,13 @@ class Market extends Repository
         }
     }
 
+    //JsonSerializable
+    public function jsonSerialize(){
+        $vars = get_object_vars($this);
+
+        return $vars;
+    }
+
     //Getters and Setters
     public function getNmUser(){
         return $this->nm_market;
@@ -32,14 +39,14 @@ class Market extends Repository
     /*DAO Methods*/
 
     //Select
-    private static function getMarketDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values){
+    private static function getMarketDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
         if ($tables == null) {
             $tables = array('market');
         }
-        return parent::getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+        return parent::getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
     }
-    static function findMarketsByParameters($showColumns, $tables, $relationColumns, $logicOperators, $values){
-        $select = self::getMarketDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+    static function findMarketsByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
+        $select = self::getMarketDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
 
         $statement = parent::executeQuery($select);
 
@@ -48,17 +55,18 @@ class Market extends Repository
         return $marketsArray;
     }
     static function getEmployerMarkets($id_user){
-        $showColumns        =   array('m.nm_market');
-        $tables             =   array('market m', 'employer_relation er');
-        $relationColumns    =   array('m.pk_id_market', 'er.fk_id_user');
-        $logicOperators     =   array('and');
-        $values             =   array('er.fk_id_market', $id_user);
+        $showColumns                    =   array('m.*');
+        $tables                         =   array('market m', 'employer_relation er');
+        $relationColumns                =   array('m.pk_id_market', 'er.fk_id_user');
+        $haveSingleQuoteBooleanArray    =   array(FALSE, FALSE);
+        $logicOperators                 =   array('and');
+        $values                         =   array('er.fk_id_market', $id_user);
 
-        $select = self::getMarketDynamicSelect($showColumns, $tables, $relationColumns, $logicOperators, $values);
+        $select = self::getMarketDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
 
         $statement = parent::executeQuery($select);
 
-        $marketsArray = parent::fetchInStringArray($statement, 'nm_market');
+        $marketsArray = self::fetchInMarketObjectArray($statement);
 
         return $marketsArray;
     }

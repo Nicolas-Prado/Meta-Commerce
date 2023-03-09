@@ -1,9 +1,9 @@
 <?php
-    require_once "../../model/marketmodel.php";
+    require_once "../model/marketmodel.php";
 
     class MarketController{
-        static function findMarketsByParameters($showColumns, $tables, $relationColumns, $logicOperators, $values){
-            return Market::findMarketsByParameters($showColumns, $tables, $relationColumns, $logicOperators, $values);
+        static function findMarketsByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
+            return Market::findMarketsByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
         }
         
         static function insertIntoMarketsWithMarketObject(Market $market){

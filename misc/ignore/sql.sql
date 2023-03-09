@@ -37,6 +37,9 @@ CREATE TABLE market(
 );
 
 INSERT INTO market 
+VALUES(0, 'Frisia','nicolasprado0028@gmail.com','imgnicolasprado0028@gmail.com.png','2019-05-14','Nemfodendo','Active','2012-01-01','2012-01-01');
+
+INSERT INTO market 
 VALUES(0, 'Pgtronic','nicolasprado0028@gmail.com','imgnicolasprado0028@gmail.com.png','2019-05-14','andrepika','Active','2012-01-01','2012-01-01');
 
 CREATE TABLE employer_relation(
@@ -55,4 +58,7 @@ CREATE TABLE employer_relation(
 
 INSERT INTO employer_relation 
 VALUES(0, 1, 4, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');
+
+INSERT INTO employer_relation 
+VALUES(0, 1, 5, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');
 --VALUES(0, 1, 1, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');

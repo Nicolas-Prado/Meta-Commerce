@@ -9,10 +9,11 @@ require_once '../../controller/usercontroller.php';
 function findUserByEmail($email){
     
     $relationColumns = array('ds_email');
+    $haveSingleQuoteBooleanArray = array(TRUE);
     $logicalOperatores = array();
     $values = array($email);
 
-    return UserController::findUsersByParameters(null, null, $relationColumns, $logicalOperatores, $values);
+    return UserController::findUsersByParameters(null, null, $relationColumns, $haveSingleQuoteBooleanArray, $logicalOperatores, $values);
 }
 function isValidEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) && empty(findUserByEmail($email));

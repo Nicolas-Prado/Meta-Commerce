@@ -1,61 +1,50 @@
-function setNullIfEmailEmpty(){
-    const marketFieldElement = document.getElementById("market");
-    const emailFieldElement = document.getElementById("email");
-
-    if(emailFieldElement.value == null || emailFieldElement.value == ''){
-        marketFieldElement.value='';
-    }
-}
-
-function showEmptyEmailAdvice(){
-    const marketFieldElement = document.getElementById("market");
-    const emailFieldElement = document.getElementById("email");
-
-    if(emailFieldElement.value == null || emailFieldElement.value == ''){
-        marketFieldElement.setCustomValidity('Fill email input first!');
-        marketFieldElement.reportValidity();
-    }
-    else{
-        marketFieldElement.setCustomValidity('');
-        marketFieldElement.reportValidity();
-    }
-
-}
-
-function onEmailInputChange(){
+function onEmailInputChange() {
     //validateExistendEmail();
 }
 
-function getEmployerMarkets(){
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function(){
-        const jsonDoc = JSON.parse(this.responseText);
-        console.log(jsonDoc[0]);
+function fillMarketsDataList(markets) {
+    if (markets != null) {
+        var marketsDataList = document.getElementById('markets');
+        var marketsDataListInput = document.getElementById('market');
+
+        marketsDataListInput.disabled = false;
+        marketsDataList.textContent = '';
+
+        for (const market of markets) {
+            var option = document.createElement('option');
+            option.value = market.nm_market;
+            marketsDataList.appendChild(option);
+        }
     }
-    xhttp.open("POST", "../../api/getMarketsByEmployerEmail.php");
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("email="+document.getElementById("email").value);
 }
-/*
-function manageMarketDisable(){
-    var marketFieldElement = document.getElementById("market");
-    var blankEmailSpanAdvice = document.getElementById("blank-email-advice");
-    var emailFieldElement = document.getElementById("email");
 
-    if(emailFieldElement.value == null || emailFieldElement.value == ''){
-        marketFieldElement.disabled=true;
-        blankEmailSpanAdvice.removeAttribute("hidden");
+function resetMarketsDataList(){
+    var marketsDataList = document.getElementById('markets');
+    var marketsDataListInput = document.getElementById('market');
+
+    marketsDataListInput.disabled = true;
+    marketsDataList.textContent = '';
+}
+
+function getEmployerMarkets() {
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function () {
+        const jsonDoc = JSON.parse(this.responseText);
+        if(jsonDoc!=null){
+            fillMarketsDataList(jsonDoc);
+        }
+        else{
+            resetMarketsDataList();
+        }
     }
-    else{
-        marketFieldElement.disabled=false;
-        blankEmailSpanAdvice.setAttribute("hidden", "hidden");
-    }
 
-}*/
+    xhttp.open("POST", "../../api/getMarketsByEmployerEmail.php");
 
-/*const validityState = emailInput.validity;
-if (validityState.valueMissing) {
-    emailInput.setCustomValidity("You gotta fill this out, yo!");
-} else {
-    emailInput.setCustomValidity("");
-}*/
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xhttp.send(
+        "email=" + document.getElementById("email").value + "&"
+        + "password=" + document.getElementById("password").value
+    );
+}

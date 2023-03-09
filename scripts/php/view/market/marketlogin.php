@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,24 +9,23 @@
     <link rel="stylesheet" href="../../../../styles/style.css">
     <link rel="stylesheet" href="../../../../styles/marketlogin.css">
 </head>
+
 <body>
     <div class="login-box">
         <div class="login-content">
-            <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
-            <label for="market">Market: </label>
-                <input list="markets" name="market" id="market" onclick="showEmptyEmailAdvice()"
-                onblur="setNullIfEmailEmpty()"
-                onfocus="getEmployerMarkets()">
-                <datalist id="markets">
-                </datalist>
-                <br>
-
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <label for="email">Email: </label>
-                <input type="text" name="email" id="email">
+                <input type="text" name="email" id="email" onchange="getEmployerMarkets()">
                 <br>
 
                 <label for="password">Password: </label>
-                <input type="password" name="password" id="password"><br>
+                <input type="password" name="password" id="password" onchange="getEmployerMarkets()"><br>
+
+                <label for="market">Market: </label>
+                <input list="markets" name="market" id="market" disabled>
+                <datalist id="markets">
+                </datalist>
+                <br>
 
                 <input type="submit" name="submit" value="Login">
             </form>
@@ -39,4 +39,5 @@
     <script src="../../../javascript/main.js"></script>
     <script src="../../../javascript/marketlogin.js"></script>
 </body>
+
 </html>

@@ -1,8 +1,8 @@
 <?php
-    require_once "../../model/usermodel.php";
+    require_once "../model/usermodel.php";
     class UserController{
-        static function findUsersByParameters($showColumns, $tables, $relationColumns, $logicOperators, $values){
-            return User::findUsersByParameters($showColumns, $tables, $relationColumns, $logicOperators, $values);
+        static function findUsersByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
+            return User::findUsersByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
         }
 
         static function insertIntoUsersWithUserObject(User $user){
